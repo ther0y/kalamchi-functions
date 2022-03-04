@@ -7,4 +7,5 @@ export default class Constants {
 
   myName = this.configs.get('MY_NAME');
   jwtSecret = this.configs.get('JWT_SECRET_KEY');
+  pgConnectionString = this.configs.get('PG_CONNECTION_STRING');
 }

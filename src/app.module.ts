@@ -6,6 +6,7 @@ import { dotEnvOptions } from './config/dotenv-options';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import Constants from './config/constants';
+import { DbService } from './db/db.service';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import Constants from './config/constants';
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService, Constants],
+  providers: [AppService, Constants, DbService],
 })
 export class AppModule {}
