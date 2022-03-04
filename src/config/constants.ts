@@ -6,4 +6,5 @@ export default class Constants {
   constructor(private configs: ConfigService) {}
 
   myName = this.configs.get('MY_NAME');
+  jwtSecret = this.configs.get('JWT_SECRET_KEY');
 }
