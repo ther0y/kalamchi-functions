@@ -25,7 +25,7 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    return this.constants.myName;
+    return 'OK';
   }
 
   @Post('auth/guest')

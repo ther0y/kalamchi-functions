@@ -5,7 +5,6 @@ import { ConfigService } from '@nestjs/config';
 export default class Constants {
   constructor(private configs: ConfigService) {}
 
-  myName = this.configs.get('MY_NAME');
   jwtSecret = this.configs.get('JWT_SECRET_KEY');
   pgConnectionString = this.configs.get('PG_CONNECTION_STRING');
 }
