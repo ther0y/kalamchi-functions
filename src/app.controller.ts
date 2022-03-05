@@ -64,7 +64,7 @@ export class AppController {
 
     return {
       ...game,
-      word: hasher.encode(hasher.encode(game)),
+      word: hasher.encode(hasher.encode(game.word)),
       date: game.date,
     };
   }
