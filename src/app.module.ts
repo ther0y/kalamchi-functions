@@ -1,8 +1,7 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
-import { dotEnvOptions } from './config/dotenv-options';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import Constants from './config/constants';
@@ -11,17 +10,9 @@ import { GamesModule } from './games/games.module';
 import { hasuraLoginMiddleware } from './auth/hasura-login.middleware';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      envFilePath: dotEnvOptions.path,
-      isGlobal: true,
-    }),
-    AuthModule,
-    UsersModule,
-    GamesModule,
-  ],
+  imports: [ConfigModule.forRoot(), AuthModule, UsersModule, GamesModule],
   controllers: [AppController],
-  providers: [AppService, Constants, DbService],
+  providers: [AppService, Constants, DbService, ConfigService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
