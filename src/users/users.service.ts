@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { DbService } from '../db/db.service';
-import { Profile } from "./Profile";
+import { GamesRepository } from '../games/games.repository';
+import { UsersRepository } from './users.repository';
+import * as crypto from 'crypto';
 
 // This should be a real class/interface representing a user entity
 export type User = any;
 
 @Injectable()
 export class UsersService {
-  constructor(private dbService: DbService) {}
+  constructor(
+    private usersRepository: UsersRepository,
+    private gamesRepository: GamesRepository,
+  ) {}
 
   private readonly users = [
     {
@@ -22,9 +26,16 @@ export class UsersService {
     },
   ];
 
+  validatePassword(password: string, user: User) {
+    const hash = crypto
+      .pbkdf2Sync(password, user.salt, 1000, 64, `sha512`)
+      .toString(`hex`);
+
+    return user.password === hash;
+  }
+
   async findOne(username: string): Promise<User | undefined> {
-    const r = await this.dbService.query<Profile>('select * from profile');
-    console.log(r[0].id);
-    return this.users.find((user) => user.username === username);
+    const [user] = await this.usersRepository.findByUsername(username);
+    return user;
   }
 }

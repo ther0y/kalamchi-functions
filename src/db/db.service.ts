@@ -1,4 +1,8 @@
-import { Pool, PoolClient, QueryResult } from "pg";
+import { Pool, PoolClient, QueryResult, types } from 'pg';
+types.setTypeParser(1114, function (stringValue) {
+  return stringValue; //1114 for time without timezone type
+});
+
 import { Injectable } from '@nestjs/common';
 import Constants from '../config/constants';
 
@@ -7,7 +11,6 @@ export class DbService {
   #pool: Pool;
 
   constructor(private constants: Constants) {
-    console.log(constants.pgConnectionString)
     this.#pool = new Pool({
       connectionString: constants.pgConnectionString,
     });
@@ -19,8 +22,8 @@ export class DbService {
     return this.#pool.connect(fn);
   }
 
-  async query<T>(query: string): Promise<T[]> {
-    const result = await this.#pool.query<T>(query);
+  async query<T>(query: string, values = []): Promise<T[]> {
+    const result = await this.#pool.query<T>(query, values);
     return result.rows;
   }
 }

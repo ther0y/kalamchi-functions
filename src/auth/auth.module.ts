@@ -14,7 +14,7 @@ import Constants from '../config/constants';
     JwtModule.registerAsync({
       useFactory: async () => ({
         secret: process.env.JWT_SECRET_KEY,
-        signOptions: { expiresIn: '60s' },
+        signOptions: { expiresIn: `${60 * 15}s`, algorithm: 'HS256' },
       }),
     }),
   ],
